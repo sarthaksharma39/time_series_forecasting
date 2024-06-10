@@ -1,0 +1,77 @@
+Below is the Algorithm of the project           ~Actual code can't be provide beacuse of our novelty. 
+
+1. Load and Preprocess Data
+Step 1: Load Data
+  Load the data from a CSV file into a Pandas DataFrame.
+  Assume the target variable for forecasting is the last column, ALLSKY_SFC_SW_DWN.
+Step 2: Data Scaling
+  Use MinMaxScaler from scikit-learn to normalize the target variable values to the range [0, 1].
+Step 3: Split Data into Train and Test Sets
+  Split the data into training and testing sets using an 80-20 split.
+Step 4: Create Time Series Dataset
+  Define a function create_dataset to transform the data into time series format:
+  Iterate through the dataset to create input sequences (X) and their corresponding output values (y).
+  Use a specified number of time steps (e.g., 3) to determine the sequence length.
+
+
+2. Model Creation and Grid Search
+Step 5: Reshape Data
+  Reshape the input data to be in the 3D format required for neural networks: [samples, time steps, features].
+Step 6: Define Model Architectures
+  Define functions to create models for LSTM, CNN, RNN, and MLP architectures:
+  Each model is built using Keras Sequential API.
+  Use regularization (l2) to prevent overfitting.
+  Compile each model using the 'adam' optimizer and 'mse' loss function.
+Step 7: Wrap Keras Models
+  Wrap each Keras model using KerasRegressor from scikeras.wrappers, allowing them to be used with scikit-learn utilities.
+Step 8: Define Parameter Grid for Grid Search
+  Specify a parameter grid for each model, including hyperparameters like epochs and batch_size.
+Step 9: Perform Grid Search
+  Use GridSearchCV to perform grid search with cross-validation (TimeSeriesSplit) for each model.
+  Evaluate models using negative mean squared error (neg_mean_squared_error).
+Step 10: Print Best Parameters and Scores
+  Print the best parameters and scores for each model from the grid search results.
+
+
+3. Cross-Validation
+Step 11: Fit Models
+  Fit each model (LSTM, CNN, RNN, MLP) to the training data using the best parameters obtained from grid search.
+Step 12: Perform Cross-Validation
+  Perform cross-validation for each model using cross_val_score with TimeSeriesSplit.
+  Print cross-validation scores (negative mean squared error).
+
+
+4. Model Evaluation
+Step 13: Make Predictions
+  Use each fitted model to make predictions on the training and testing data.
+Step 14: Invert Predictions
+  Invert the predictions to the original scale using the scaler's inverse transform method.
+Step 15: Calculate Evaluation Metrics
+  Calculate mean squared error (MSE), mean absolute error (MAE), R-squared (R2) score for each model on the training and testing data.
+
+
+5. Hybrid Model
+Step 16: Combine Predictions
+  Combine predictions from all models (LSTM, CNN, RNN, MLP) by averaging their outputs to create a hybrid model.
+Step 17: Calculate Hybrid Model Metrics
+  Calculate MSE, MAE, R2 score, and mean absolute percentage error (MAPE) for the hybrid model on the training and testing data.
+Step 18: Print Hybrid Model Metrics
+  Print evaluation metrics for the hybrid model.
+
+
+6. Plot Actual vs Predicted Values
+Step 19: Plot Results
+  Plot actual vs predicted values for the hybrid model.
+
+
+7. Future Prediction
+Step 20: Define Future Prediction Function
+  Define a function predict_future_hybrid to predict future values using the hybrid model:
+  Start with the last sequence from the test set.
+  Iteratively predict the next value and update the sequence.
+Step 21: Predict Future Values
+  Predict future values for a specified number of steps (e.g., 5) using the hybrid model.
+Step 22: Invert Future Predictions
+  Invert the future predictions to the original scale using the scaler's inverse transform method.
+Step 23: Print and Plot Future Predictions
+  Print and plot the future predictions.
